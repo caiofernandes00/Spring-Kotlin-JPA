@@ -39,7 +39,7 @@ class TaskController(
     }
 
     @DeleteMapping("/{id}")
-    fun deleteTask(@PathVariable(value = "id") taskId: String, @RequestBody newTask: TaskDTO): ResponseEntity<Task> =
-        ResponseEntity(HttpStatus.ACCEPTED)
+    fun deleteTask(@PathVariable(value = "id") taskId: String, @RequestBody newTask: TaskDTO): ResponseEntity<Unit> =
+        ResponseEntity.ok(taskUseCase.deleteTask(taskId))
 
 }

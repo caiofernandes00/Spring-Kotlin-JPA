@@ -15,7 +15,7 @@ class TaskAdapter(
     private val taskRepository: TaskRepository
 ) : TaskRepositoryAdapter {
     override fun getTasks(): List<Task> =
-        taskRepository.findAll() as List<Task>
+        taskRepository.findAll().map { task -> task.toDomain() }
 
     override fun addTask(task: TaskDTO): Task =
         taskRepository.save(

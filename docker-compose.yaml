@@ -19,6 +19,8 @@ services:
       - 8081:8080
     networks:
       - mysql-compose-network
+    depends_on:
+      - mysqlsrv
 
 networks:
   mysql-compose-network:
