@@ -4,15 +4,24 @@ import com.programming.database.adapter.`in`.controller.dto.TaskDTO
 import com.programming.database.application.port.`in`.TaskUseCase
 import com.programming.database.application.port.out.TaskRepositoryAdapter
 import com.programming.database.domain.Task
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.security.InvalidParameterException
+import java.util.*
 import kotlin.reflect.KClass
 
 @Service
 class TaskService(
     private val taskRepositoryAdapter: TaskRepositoryAdapter
-): TaskUseCase {
-    override fun getTasks(): List<Task> = taskRepositoryAdapter.getTasks()
+) : TaskUseCase {
+    override fun getTasks(
+        pageable: Pageable,
+        startDate: Date?,
+        endDate: Date?
+    ): Page<Task> = taskRepositoryAdapter.getTasks(
+        pageable, startDate, endDate
+    )
 
     override fun addTask(task: TaskDTO): Task = taskRepositoryAdapter.addTask(task)
 
@@ -31,7 +40,7 @@ class TaskService(
         return taskRepositoryAdapter.deleteTask(taskId)
     }
 
-    private fun <T: Any> convertStringParamToNumber(param: String, clazz: KClass<T>): T {
+    private fun <T : Any> convertStringParamToNumber(param: String, clazz: KClass<T>): T {
         try {
             return when (clazz) {
                 Long::class -> param.toLong() as T
