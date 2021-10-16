@@ -8,7 +8,6 @@ import com.programming.database.domain.Task
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -25,9 +24,8 @@ class TaskController(
         @PageableDefault(size = 10) pageable: Pageable
     ): ResponseEntity<Page<Task>> {
 
-        val pageable = pageableFilter(pageable)
         return ResponseEntity.ok(taskUseCase.getTasks(
-            pageable,
+            pageableFilter(pageable),
             filters.startDate,
             filters.endDate
         ))
