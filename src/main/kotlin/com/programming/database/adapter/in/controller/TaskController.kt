@@ -26,8 +26,7 @@ class TaskController(
 
         return ResponseEntity.ok(taskUseCase.getTasks(
             pageableFilter(pageable),
-            filters.startDate,
-            filters.endDate
+            filters
         ))
     }
 

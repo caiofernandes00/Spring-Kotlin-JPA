@@ -1,7 +1,6 @@
 package com.programming.database.adapter.out.persistance.entity
 
-import java.time.LocalDateTime
-import java.util.*
+import java.time.OffsetDateTime
 import javax.persistence.*
 
 @Entity
@@ -12,12 +11,12 @@ data class TaskEntity(
     val id: Long? = null,
     val title: String,
     val description: String? = null,
-    val startDate: Date? = null,
-    val dueDate: Date? = null,
+    val startDate: OffsetDateTime? = null,
+    val dueDate: OffsetDateTime? = null,
     val status: Int,
     val priority: Int,
     @Column(name = "created_at")
-    val createdAt: LocalDateTime? = LocalDateTime.now(),
+    val createdAt: OffsetDateTime? = OffsetDateTime.now(),
     @Column(name = "updated_at")
-    val updatedAt: LocalDateTime? = LocalDateTime.now(),
+    val updatedAt: OffsetDateTime? = OffsetDateTime.now(),
 )

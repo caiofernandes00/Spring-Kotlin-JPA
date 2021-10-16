@@ -1,6 +1,7 @@
 package com.programming.database.application.service
 
 import com.programming.database.adapter.`in`.controller.dto.TaskDTO
+import com.programming.database.adapter.`in`.controller.dto.TaskFiltersDTO
 import com.programming.database.application.port.`in`.TaskUseCase
 import com.programming.database.application.port.out.TaskRepositoryPort
 import com.programming.database.domain.Task
@@ -8,7 +9,6 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.security.InvalidParameterException
-import java.util.*
 import kotlin.reflect.KClass
 
 @Service
@@ -17,10 +17,9 @@ class TaskService(
 ) : TaskUseCase {
     override fun getTasks(
         pageable: Pageable,
-        startDate: Date?,
-        endDate: Date?,
+        fieldsRequest: TaskFiltersDTO,
     ): Page<Task> = taskRepositoryAdapter.getTasks(
-        pageable, startDate, endDate
+        pageable, fieldsRequest
     )
 
     override fun addTask(task: TaskDTO): Task = taskRepositoryAdapter.addTask(task)

@@ -1,6 +1,7 @@
 package com.programming.database.adapter.out.persistance.task
 
 import com.programming.database.adapter.`in`.controller.dto.TaskDTO
+import com.programming.database.adapter.`in`.controller.dto.TaskFiltersDTO
 import com.programming.database.adapter.out.persistance.entity.TaskEntity
 import com.programming.database.adapter.out.persistance.mapper.toDomain
 import com.programming.database.adapter.out.persistance.mapper.toEntity
@@ -11,18 +12,15 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
-import java.util.*
 import javax.persistence.criteria.Predicate
 
 @Service
 class TaskPort(
     private val taskRepository: TaskRepository
 ) : TaskRepositoryPort {
-    override fun getTasks(pageable: Pageable, startDate: Date?, endDate: Date?): Page<Task> =
+    override fun getTasks(pageable: Pageable, fieldsRequest: TaskFiltersDTO): Page<Task> =
         taskRepository.findAll(
-            Specs.applyFilter(
-                startDate, endDate
-            ),
+            Specs.applyFilter(fieldsRequest),
             pageable
         ).map { task -> task.toDomain() }
 
@@ -62,13 +60,12 @@ class TaskPort(
 
 object Specs {
     fun applyFilter(
-        startDate: Date?,
-        endDate: Date?
+        fieldsRequest: TaskFiltersDTO
     ): Specification<TaskEntity> =
         Specification<TaskEntity> { root, _, builder ->
 
             val predicates = mutableListOf<Predicate>()
-            startDate?.let {
+            fieldsRequest.startDate?.let {
                 predicates.add(
                     builder.greaterThanOrEqualTo(
                         root.get("startDate"),
@@ -77,7 +74,7 @@ object Specs {
                 )
             }
 
-            endDate?.let {
+            fieldsRequest.endDate?.let {
                 predicates.add(
                     builder.lessThanOrEqualTo(
                         root.get("startDate"),
