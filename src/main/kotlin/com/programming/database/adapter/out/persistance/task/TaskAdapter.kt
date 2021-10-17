@@ -6,7 +6,7 @@ import com.programming.database.adapter.out.persistance.entity.TaskEntity
 import com.programming.database.adapter.out.persistance.mapper.toDomain
 import com.programming.database.adapter.out.persistance.mapper.toEntity
 import com.programming.database.adapter.out.persistance.repository.TaskRepository
-import com.programming.database.application.port.out.TaskRepositoryPort
+import com.programming.database.application.port.out.TaskPort
 import com.programming.database.domain.Task
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service
 import javax.persistence.criteria.Predicate
 
 @Service
-class TaskPort(
-    private val taskRepository: TaskRepository
-) : TaskRepositoryPort {
+class TaskAdapter(
+    private val taskRepository: TaskRepository,
+) : TaskPort {
     override fun getTasks(pageable: Pageable, fieldsRequest: TaskFiltersDTO): Page<Task> =
         taskRepository.findAll(
             Specs.applyFilter(fieldsRequest),
@@ -60,7 +60,7 @@ class TaskPort(
 
 object Specs {
     fun applyFilter(
-        fieldsRequest: TaskFiltersDTO
+        fieldsRequest: TaskFiltersDTO,
     ): Specification<TaskEntity> =
         Specification<TaskEntity> { root, _, builder ->
 

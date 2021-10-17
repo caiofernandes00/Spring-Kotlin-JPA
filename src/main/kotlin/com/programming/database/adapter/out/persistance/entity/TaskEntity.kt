@@ -11,7 +11,9 @@ data class TaskEntity(
     val id: Long? = null,
     val title: String,
     val description: String? = null,
+    @Column(name = "start_date")
     val startDate: OffsetDateTime? = null,
+    @Column(name = "due_date")
     val dueDate: OffsetDateTime? = null,
     val status: Int,
     val priority: Int,

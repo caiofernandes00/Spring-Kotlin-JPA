@@ -6,7 +6,7 @@ import com.programming.database.domain.Task
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
-interface TaskRepositoryPort {
+interface TaskPort {
     fun getTasks(pageable: Pageable, fieldsRequest: TaskFiltersDTO): Page<Task>
     fun addTask(task: TaskDTO): Task
     fun getTaskById(taskId: Long): Task?

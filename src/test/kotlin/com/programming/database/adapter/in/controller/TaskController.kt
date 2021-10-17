@@ -45,8 +45,8 @@ internal class TaskController {
         @JvmStatic
         fun generateArgumentsTestsForGetTasks(): Stream<Arguments> =
             Stream.of(
-                Arguments.arguments("startPeriod", OffsetDateTime.now().minusDays(1)),
-                Arguments.arguments("endPeriod", OffsetDateTime.now().plusDays(1))
+                Arguments.arguments("startPeriod", OffsetDateTime.now().minusDays(1).toString()),
+                Arguments.arguments("endPeriod", OffsetDateTime.now().plusDays(1).toString())
             )
     }
 
@@ -60,8 +60,7 @@ internal class TaskController {
     @MethodSource("generateArgumentsTestsForGetTasks")
     fun `Validate if can retrieve a task based on field params`(field: String, value: String) {
         val result = mockMvc.perform(
-            MockMvcRequestBuilders.get("/tasks")
-                .param(field, value)
+            MockMvcRequestBuilders.get("/v1/api/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
         ).andDo { response -> response.response }

@@ -3,7 +3,7 @@ package com.programming.database.application.service
 import com.programming.database.adapter.`in`.controller.dto.TaskDTO
 import com.programming.database.adapter.`in`.controller.dto.TaskFiltersDTO
 import com.programming.database.application.port.`in`.TaskUseCase
-import com.programming.database.application.port.out.TaskRepositoryPort
+import com.programming.database.application.port.out.TaskPort
 import com.programming.database.domain.Task
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -13,32 +13,32 @@ import kotlin.reflect.KClass
 
 @Service
 class TaskService(
-    private val taskRepositoryAdapter: TaskRepositoryPort,
+    private val taskPort: TaskPort,
 ) : TaskUseCase {
     override fun getTasks(
         pageable: Pageable,
         fieldsRequest: TaskFiltersDTO,
-    ): Page<Task> = taskRepositoryAdapter.getTasks(
+    ): Page<Task> = taskPort.getTasks(
         pageable, fieldsRequest
     )
 
-    override fun addTask(task: TaskDTO): Task = taskRepositoryAdapter.addTask(task)
+    override fun addTask(task: TaskDTO): Task = taskPort.addTask(task)
 
     override fun getTaskById(taskId: String): Task? {
-        return taskRepositoryAdapter.getTaskById(
+        return taskPort.getTaskById(
             convertStringParamToNumber(taskId, Long::class)
         )
     }
 
     override fun putTask(taskId: String, newTask: TaskDTO): Task? {
-        return taskRepositoryAdapter.putTask(
+        return taskPort.putTask(
             convertStringParamToNumber(taskId, Long::class),
             newTask
         )
     }
 
     override fun deleteTask(taskId: String) {
-        return taskRepositoryAdapter.deleteTask(
+        return taskPort.deleteTask(
             convertStringParamToNumber(taskId, Long::class)
         )
     }
